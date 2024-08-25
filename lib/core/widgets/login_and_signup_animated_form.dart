@@ -168,7 +168,7 @@ class _EmailAndPasswordState extends State<EmailAndPassword> {
         child: Align(
           alignment: Alignment.centerRight,
           child: Text(
-            'forget password?',
+            'Forget password?',
             style: TextStyles.font14Blue400Weight,
           ),
         ),

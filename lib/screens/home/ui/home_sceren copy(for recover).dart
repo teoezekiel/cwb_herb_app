@@ -16,13 +16,6 @@ import '../../../core/widgets/progress_indicaror.dart';
 import '../../../logic/cubit/auth_cubit.dart';
 import '../../../theming/colors.dart';
 
-// Import other necessary screens
-import '../pages/take_care_screen.dart';
-import '../pages/knowledge_screen.dart';
-import '../pages/inbox_screen.dart';
-import '../pages/profile_screen.dart';
-
-
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
@@ -31,35 +24,9 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  int index = 0;
-  final screens = [
-    HomeScreen(),
-    TakeCareScreen(),
-    KnowledgeScreen(),
-    InboxScreen(),
-    ProfileScreen(),
-  ];
-
-  @override
-  void initState() {
-    super.initState();
-    BlocProvider.of<AuthCubit>(context);
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Home'),
-        actions: [
-          IconButton(
-            icon: Icon(Icons.logout),
-            onPressed: () {
-              _signOut(context);
-            },
-          ),
-        ],
-      ),
       body: OfflineBuilder(
         connectivityBuilder: (
           BuildContext context,
@@ -75,46 +42,13 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
       ),
-      bottomNavigationBar: NavigationBarTheme(
-        data: NavigationBarThemeData(
-          indicatorColor: Colors.blue.shade100,
-          labelTextStyle: MaterialStateProperty.all<TextStyle>(
-            TextStyle(fontSize: 13, fontWeight: FontWeight.w500),
-          ),
-        ),
-        child: NavigationBar(
-          height: 60,
-          backgroundColor: Color(0xFFf1f5fb),
-          labelBehavior: NavigationDestinationLabelBehavior.onlyShowSelected,
-          selectedIndex: index,
-          animationDuration: Duration(seconds: 1),
-          onDestinationSelected: (index) =>
-              setState(() => this.index = index),
-          destinations: [
-            NavigationDestination(
-              icon: Icon(Icons.home),
-              label: 'Home',
-            ),
-            NavigationDestination(
-              icon: Icon(Icons.eco),
-              label: 'Guide',
-            ),
-            NavigationDestination(
-              icon: Icon(Icons.laptop_chromebook_rounded),
-              label: 'Knowledge',
-            ),
-            NavigationDestination(
-              icon: Icon(Icons.email_outlined),
-              label: 'Inbox',
-            ),
-            NavigationDestination(
-              icon: Icon(Icons.person_2_outlined),
-              label: 'Profile',
-            ),
-          ],
-        ),
-      ),
     );
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    BlocProvider.of<AuthCubit>(context);
   }
 
   SafeArea _homePage(BuildContext context) {
@@ -168,7 +102,11 @@ class _HomeScreenState extends State<HomeScreen> {
                     buttonText: 'Sign Out',
                     textStyle: TextStyles.font15DarkBlue500Weight,
                     onPressed: () {
-                      _signOut(context);
+                      try {
+                        GoogleSignIn().disconnect();
+                      } finally {
+                        context.read<AuthCubit>().signOut();
+                      }
                     },
                   );
                 },
@@ -178,13 +116,5 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ),
     );
-  }
-
-  void _signOut(BuildContext context) async {
-    try {
-      GoogleSignIn().disconnect();
-    } finally {
-      context.read<AuthCubit>().signOut();
-    }
   }
 }
