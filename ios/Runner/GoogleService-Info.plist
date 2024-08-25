@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>954712873566-leq63iooqriqh9ddbulrv4cqvs7r8ciu.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.954712873566-leq63iooqriqh9ddbulrv4cqvs7r8ciu</string>
+	<key>API_KEY</key>
+	<string>AIzaSyDocUg4F2owKeCfI3Vel1Buw9fEr6KB86I</string>
+	<key>GCM_SENDER_ID</key>
+	<string>954712873566</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.example.authBloc</string>
+	<key>PROJECT_ID</key>
+	<string>cwb-medical-herb</string>
+	<key>STORAGE_BUCKET</key>
+	<string>cwb-medical-herb.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:954712873566:ios:89dc63afd2fe75ea0e32cf</string>
+</dict>
+</plist>

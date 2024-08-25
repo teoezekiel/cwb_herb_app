@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "954712873566",
+    "project_id": "cwb-medical-herb",
+    "storage_bucket": "cwb-medical-herb.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:954712873566:android:487d56a14b2107610e32cf",
+        "android_client_info": {
+          "package_name": "duckcloud.info.cwb_medical_herb"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDxewRshI43WxJdW-1uCDMbPXoaT0OR5XQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
