@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
+import '/routing/routes.dart'; // Import your routes.dart file here
 
 import 'take_care_screen.dart';
 import 'cook_screen.dart';
@@ -10,7 +11,6 @@ import 'culture_of_flower_screen.dart';
 import 'favorite_screen.dart';
 import 'inbox_screen.dart';
 import 'profile_screen.dart';
-
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -24,7 +24,7 @@ class _HomeScreenState extends State<HomeScreen> {
   final PageController _pageController = PageController();
   Timer? _timer;
   TextEditingController _searchController = TextEditingController();
-  final ScrollController _scrollController = ScrollController(); // Add ScrollController
+  final ScrollController _scrollController = ScrollController();
 
   static const List<Widget> _widgetOptions = <Widget>[
     Text('Home Screen'),
@@ -34,31 +34,14 @@ class _HomeScreenState extends State<HomeScreen> {
     ProfileScreen(),
   ];
 
-  // Sample plant data
   static const List<Map<String, String>> plants = [
-    {
-      "name": "Noni",
-      "image": "https://i.pinimg.com/564x/4f/08/69/4f08697eb6f7a3c26f29ef4884b67e12.jpg"
-    },
-    {
-      "name": "Bonsai",
-      "image": "https://i.pinimg.com/564x/b7/89/c6/b789c68039630efa414736d5702d0205.jpg"
-    },
-    {
-      "name": "Moringa",
-      "image": "https://i.pinimg.com/564x/6e/01/d0/6e01d0deb0218887b97ec6dbda4b54dc.jpg"
-    },
-    {
-      "name": "Mint",
-      "image": "https://i.pinimg.com/564x/16/05/c5/1605c5c53413da6cd647aee8d8f73e2d.jpg"
-    },
-    {
-      "name": "Celery",
-      "image": "https://i.pinimg.com/564x/84/63/a8/8463a80cedd33b2b47f14669a61ef1f2.jpg"
-    }
+    {"name": "Noni", "image": "https://i.pinimg.com/564x/4f/08/69/4f08697eb6f7a3c26f29ef4884b67e12.jpg"},
+    {"name": "Bonsai", "image": "https://i.pinimg.com/564x/b7/89/c6/b789c68039630efa414736d5702d0205.jpg"},
+    {"name": "Moringa", "image": "https://i.pinimg.com/564x/6e/01/d0/6e01d0deb0218887b97ec6dbda4b54dc.jpg"},
+    {"name": "Mint", "image": "https://i.pinimg.com/564x/16/05/c5/1605c5c53413da6cd647aee8d8f73e2d.jpg"},
+    {"name": "Celery", "image": "https://i.pinimg.com/564x/84/63/a8/8463a80cedd33b2b47f14669a61ef1f2.jpg"}
   ];
 
-  // Notify images data
   static const List<String> notifyImages = [
     "https://i.pinimg.com/736x/65/61/c2/6561c230f634b67d41d8c140a2f17b5c.jpg",
     "https://i.pinimg.com/736x/7f/f2/82/7ff2828007992e588c7f2a5176771287.jpg",
@@ -83,10 +66,9 @@ class _HomeScreenState extends State<HomeScreen> {
     _pageController.dispose();
     _timer?.cancel();
     _searchController.dispose();
-    _scrollController.dispose(); // Dispose of the ScrollController
+    _scrollController.dispose();
     super.dispose();
   }
-
 
   void _navigateToPlantDetail(BuildContext context, String name, String image) {
     Navigator.push(
@@ -120,19 +102,13 @@ class _HomeScreenState extends State<HomeScreen> {
           IconButton(
             icon: const Icon(Icons.shopping_cart),
             onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => CartScreen()), // Removed const
-              );
+              Navigator.pushNamed(context, Routes.cartScreen);
             },
           ),
           IconButton(
             icon: const Icon(Icons.favorite),
             onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => FavoriteScreen()),
-              );
+              Navigator.pushNamed(context, Routes.favoriteScreen);
             },
           ),
         ],
@@ -153,9 +129,9 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: ListView(
                     scrollDirection: Axis.horizontal,
                     children: [
-                      _buildHeaderButton(context, "How to take care?", const TakeCareScreen()),
-                      _buildHeaderButton(context, "How to cook?", const CookScreen()),
-                      _buildHeaderButton(context, "Traditional Knowledge", const KnowledgeScreen()),
+                      _buildHeaderButton(context, "How to take care?", Routes.takeCareScreen),
+                      _buildHeaderButton(context, "How to cook?", Routes.cookScreen),
+                      _buildHeaderButton(context, "Traditional Knowledge", Routes.knowledgeScreen),
                     ],
                   ),
                 ),
@@ -177,10 +153,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     itemBuilder: (context, index) {
                       return GestureDetector(
                         onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => InboxScreen()),
-                          );
+                          Navigator.pushNamed(context, Routes.inboxScreen);
                         },
                         child: _buildStyledContainer(
                           imageUrl: notifyImages[index],
@@ -190,7 +163,6 @@ class _HomeScreenState extends State<HomeScreen> {
                     },
                   ),
                 ),
-
                 const SizedBox(height: 5),
                 const Text(
                   "Explore Plants",
@@ -202,7 +174,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 const SizedBox(height: 12),
                 SizedBox(
-                  height: 100, // Adjust the height as needed
+                  height: 100,
                   child: ListView.builder(
                     scrollDirection: Axis.horizontal,
                     itemCount: plants.length,
@@ -218,8 +190,8 @@ class _HomeScreenState extends State<HomeScreen> {
                           child: Column(
                             children: [
                               SizedBox(
-                                width: 70, // Adjust the width to control the image size
-                                height: 70, // Adjust the height to control the image size
+                                width: 70,
+                                height: 70,
                                 child: CircleAvatar(
                                   backgroundImage: NetworkImage(plants[index]["image"]!),
                                 ),
@@ -236,10 +208,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 const SizedBox(height: 15),
                 GestureDetector(
                   onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => const KnowledgeScreen()),
-                    );
+                    Navigator.pushNamed(context, Routes.knowledgeScreen);
                   },
                   child: _buildStyledContainer(
                     imageUrl: "https://i.pinimg.com/564x/0c/e2/ca/0ce2ca51f4753fe6299527fdf332432f.jpg",
@@ -266,17 +235,14 @@ class _HomeScreenState extends State<HomeScreen> {
                 const SizedBox(height: 15),
                 GestureDetector(
                   onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => const CultureOfFlowerScreen()),
-                    );
+                    Navigator.pushNamed(context, Routes.cultureOfFlowerScreen);
                   },
                   child: _buildStyledContainer(
-                    imageUrl: "https://i.pinimg.com/736x/4e/43/d9/4e43d9243931eca3766085fe58d4db9f.jpg",
+                    imageUrl: "https://i.pinimg.com/736x/6f/9f/01/6f9f012d0fdf3e21b7e5f1fb0cf3a6f2.jpg",
                     title: "",
                   ),
                 ),
-                const SizedBox(height: 0),
+                const SizedBox(height: 5),
                 const Text(
                   "Culture of Flowers",
                   style: TextStyle(
@@ -287,181 +253,87 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 const SizedBox(height: 0),
                 const Text(
-                  "Let’s find culture of flowers",
+                  "Learn the culture and meaning of each flower",
                   style: TextStyle(
                     color: Colors.black54,
                     fontSize: 12,
                   ),
                 ),
-                const SizedBox(height: 16),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          _buildStyledContainer(
-                            imageUrl: "https://i.pinimg.com/736x/5e/5c/cc/5e5ccc2c8a45413243136ca20487755f.jpg",
-                            title: "",
-                          ),
-                          const SizedBox(height: 0),
-                          const Text(
-                            "Workshop",
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          const SizedBox(height: 0),
-                          const Text(
-                            "Gather and collect",
-                            style: TextStyle(
-                              color: Colors.black54,
-                              fontSize: 12,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    const SizedBox(width: 16),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          _buildStyledContainer(
-                            imageUrl: "https://gigaplus.makeshop.jp/flowerbasket/logo/202209_logo_FOYER02.jpg",
-                            title: "",
-                          ),
-                          const SizedBox(height: 0),
-                          const Text(
-                            "Foyer",
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          const SizedBox(height: 0),
-                          const Text(
-                            "About foyer etc...",
-                            style: TextStyle(
-                              color: Colors.black54,
-                              fontSize: 12,
-                            ),
-                          ),
-                          const SizedBox(height: 16),
-                          TextField(
-                            controller: _searchController,
-                            decoration: InputDecoration(
-                              hintText: 'Search...',
-                              prefixIcon: Icon(Icons.search),
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(8.0),
-                              ),
-                              filled: true,
-                              fillColor: Colors.white,
-                            ),
-                            onSubmitted: (query) {
-                              // Implement your search logic here
-                              print('Search query: $query');
-                            },
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-                // const SizedBox(height: 16),
-                // ElevatedButton(
-                //   onPressed: () {
-                //     showDialog(
-                //       context: context,
-                //       builder: (BuildContext context) {
-                //         return AlertDialog(
-                //           title: const Text('Contact Us'),
-                //           content: const Text('Mail us at hello@plants.com'),
-                //           actions: <Widget>[
-                //             TextButton(
-                //               child: const Text('Close'),
-                //               onPressed: () => Navigator.of(context).pop(),
-                //             ),
-                //           ],
-                //         );
-                //       },
-                //     );
-                //   },
-                //   style: ElevatedButton.styleFrom(
-                //     backgroundColor: Colors.green,
-                //     shape: RoundedRectangleBorder(
-                //       borderRadius: BorderRadius.circular(8.0),
-                //     ),
-                //   ),
-                //   child: const Text(
-                //     "Contact With Us",
-                //     style: TextStyle(color: Colors.white),
-                //   ),
-                // ),
+                const SizedBox(height: 10),
               ],
             ),
           ),
         ),
       ),
+      bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: const Color(0xfff7f8fa),
+        items: const [
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
+          BottomNavigationBarItem(icon: Icon(Icons.local_florist), label: 'Take Care'),
+          BottomNavigationBarItem(icon: Icon(Icons.book), label: 'Knowledge'),
+          BottomNavigationBarItem(icon: Icon(Icons.inbox), label: 'Inbox'),
+          BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
+        ],
+        currentIndex: _selectedIndex,
+        onTap: (index) {
+          setState(() {
+            _selectedIndex = index;
+          });
+        },
+        selectedItemColor: Colors.black,
+        unselectedItemColor: Colors.grey,
+      ),
     );
   }
 
-  Widget _buildHeaderButton(BuildContext context, String text, Widget screen) {
-    return ElevatedButton(
-      onPressed: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => screen),
-        );
-      },
-      style: ElevatedButton.styleFrom(
-        backgroundColor: Colors.white,
-      ),
-      child: Text(
-        text,
-        style: const TextStyle(
-          color: Colors.black,
-          fontSize: 18,
+  Widget _buildHeaderButton(BuildContext context, String title, String route) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+      child: ElevatedButton(
+        onPressed: () {
+          Navigator.pushNamed(context, route);
+        },
+        style: ElevatedButton.styleFrom(
+          backgroundColor: Colors.white,
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20),
+          ),
+        ),
+        child: Text(
+          title,
+          style: const TextStyle(color: Colors.black),
         ),
       ),
     );
   }
 
   Widget _buildStyledContainer({required String imageUrl, required String title}) {
-    return Container(
-      padding: const EdgeInsets.all(16),
-      child: Stack(
-        children: [
-          ClipRRect(
-            borderRadius: BorderRadius.circular(12),
-            child: Image.network(
-              imageUrl,
-              fit: BoxFit.cover,
-              width: double.infinity,
-              height: 230,
-            ),
+    return Stack(
+      children: [
+        ClipRRect(
+          borderRadius: BorderRadius.circular(16),
+          child: Image.network(
+            imageUrl,
+            fit: BoxFit.cover,
+            width: double.infinity,
+            height: 200,
           ),
-          if (title.isNotEmpty)
-            Positioned(
-              bottom: 8,
-              left: 8,
-              child: Text(
-                title,
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                  backgroundColor: Colors.black54,
-                ),
+        ),
+        if (title.isNotEmpty)
+          Positioned(
+            bottom: 16,
+            left: 16,
+            child: Text(
+              title,
+              style: const TextStyle(
+                color: Colors.white,
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
               ),
             ),
-        ],
-      ),
+          ),
+      ],
     );
   }
 }

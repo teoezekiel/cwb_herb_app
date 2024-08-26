@@ -21,23 +21,17 @@ import '../pages/take_care_screen.dart';
 import '../pages/knowledge_screen.dart';
 import '../pages/inbox_screen.dart';
 import '../pages/profile_screen.dart';
+import '../pages/body.dart';
 
-
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
-
-  @override
-  State<HomeScreen> createState() => _HomeScreenState();
-}
 
 class _HomeScreenState extends State<HomeScreen> {
   int index = 0;
   final screens = [
-    HomeScreen(),
-    TakeCareScreen(),
-    KnowledgeScreen(),
-    InboxScreen(),
-    ProfileScreen(),
+    const HomeScreen(),
+    const TakeCareScreen(),
+    const KnowledgeScreen(),
+    const InboxScreen(),
+    const ProfileScreen(),
   ];
 
   @override
@@ -67,7 +61,7 @@ class _HomeScreenState extends State<HomeScreen> {
           Widget child,
         ) {
           final bool connected = connectivity != ConnectivityResult.none;
-          return connected ? _homePage(context) : const BuildNoInternet();
+          return connected ? screens[index] : const BuildNoInternet(); // Use screens[index] to display the selected screen
         },
         child: const Center(
           child: CircularProgressIndicator(
@@ -84,13 +78,12 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         child: NavigationBar(
           height: 60,
-          backgroundColor: Color(0xFFf1f5fb),
+          backgroundColor: const Color(0xFFf1f5fb),
           labelBehavior: NavigationDestinationLabelBehavior.onlyShowSelected,
           selectedIndex: index,
-          animationDuration: Duration(seconds: 1),
-          onDestinationSelected: (index) =>
-              setState(() => this.index = index),
-          destinations: [
+          animationDuration: const Duration(seconds: 1),
+          onDestinationSelected: (index) => setState(() => this.index = index),
+          destinations: const [
             NavigationDestination(
               icon: Icon(Icons.home),
               label: 'Home',

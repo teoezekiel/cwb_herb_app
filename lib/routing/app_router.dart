@@ -14,6 +14,12 @@ import '../screens/home/pages/take_care_screen.dart';
 import '../screens/home/pages/knowledge_screen.dart';
 import '../screens/home/pages/inbox_screen.dart';
 import '../screens/home/pages/profile_screen.dart';
+import '../screens/home/pages/cook_screen.dart';
+import '../screens/home/pages/plant_detail_screen.dart';
+import '../screens/home/pages/cart_screen.dart';
+import '../screens/home/pages/culture_of_flower_screen.dart';
+import '../screens/home/pages/favorite_screen.dart';
+import '../screens/home/pages/body.dart';
 
 class AppRouter {
   late AuthCubit authCubit;
@@ -24,6 +30,14 @@ class AppRouter {
 
   Route? generateRoute(RouteSettings settings) {
     switch (settings.name) {
+      case Routes.loginScreen:
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider.value(
+            value: authCubit,
+            child: const LoginScreen(),
+          ),
+        );
+
       case Routes.forgetScreen:
         return MaterialPageRoute(
           builder: (_) => BlocProvider.value(
@@ -32,11 +46,11 @@ class AppRouter {
           ),
         );
 
-      case Routes.homeScreen:
+      case Routes.signupScreen:
         return MaterialPageRoute(
           builder: (_) => BlocProvider.value(
             value: authCubit,
-            child: const HomeScreen(),
+            child: const SignUpScreen(),
           ),
         );
 
@@ -53,24 +67,17 @@ class AppRouter {
             ),
           );
         }
+        break;
 
-      case Routes.signupScreen:
+      case Routes.homeScreen:
         return MaterialPageRoute(
           builder: (_) => BlocProvider.value(
             value: authCubit,
-            child: const SignUpScreen(),
+            child: const HomeScreen(),
           ),
         );
 
-      case Routes.loginScreen:
-        return MaterialPageRoute(
-          builder: (_) => BlocProvider.value(
-            value: authCubit,
-            child: const LoginScreen(),
-          ),
-        );
-      
-      // Add new routes for the additional screens
+      // Additional routes for your other screens
       case Routes.takeCareScreen:
         return MaterialPageRoute(
           builder: (_) => BlocProvider.value(
@@ -102,6 +109,62 @@ class AppRouter {
             child: const ProfileScreen(),
           ),
         );
+
+      case Routes.cookScreen:
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider.value(
+            value: authCubit,
+            child: const CookScreen(),
+          ),
+        );
+
+      case Routes.plantDetailScreen:
+      final arguments = settings.arguments as Map<String, dynamic>?; // Expecting arguments to be a map
+      if (arguments != null && arguments.containsKey('plantName') && arguments.containsKey('plantImage')) {
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider.value(
+            value: authCubit,
+            child: PlantDetailScreen(
+              plantName: arguments['plantName'],
+              plantImage: arguments['plantImage'],
+            ),
+          ),
+        );
+      }
+      break;
+
+      case Routes.cartScreen:
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider.value(
+            value: authCubit,
+            child: CartScreen(),
+          ),
+        );
+
+      case Routes.cultureOfFlowerScreen:
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider.value(
+            value: authCubit,
+            child: const CultureOfFlowerScreen(),
+          ),
+        );
+
+      case Routes.favoriteScreen:
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider.value(
+            value: authCubit,
+            child: FavoriteScreen(),
+          ),
+        );
+
+      default:
+      return MaterialPageRoute(
+        builder: (_) => Scaffold(
+          body: Center(
+            child: Text('No route defined for ${settings.name}'),
+          ),
+        ),
+      );
     }
     return null;
   }
