@@ -19,7 +19,6 @@ import '../screens/home/pages/plant_detail_screen.dart';
 import '../screens/home/pages/cart_screen.dart';
 import '../screens/home/pages/culture_of_flower_screen.dart';
 import '../screens/home/pages/favorite_screen.dart';
-import '../screens/home/pages/body.dart';
 
 class AppRouter {
   late AuthCubit authCubit;

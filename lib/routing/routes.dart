@@ -4,6 +4,7 @@ class Routes {
   static const String signupScreen = "/signupScreen";
   static const String createPassword = "/createPassword";
   static const String homeScreen = "/homeScreen"; // Keep this as the route for the home screen
+  static const String authWrapper = '/auth-wrapper';
 
   // Additional routes for other screens
   static const String takeCareScreen = "/takeCareScreen";
