@@ -19,6 +19,8 @@ import '../screens/home/pages/plant_detail_screen.dart';
 import '../screens/home/pages/cart_screen.dart';
 import '../screens/home/pages/culture_of_flower_screen.dart';
 import '../screens/home/pages/favorite_screen.dart';
+import '../screens/home/pages/body_screen.dart';
+
 
 class AppRouter {
   late AuthCubit authCubit;
@@ -77,6 +79,14 @@ class AppRouter {
         );
 
       // Additional routes for your other screens
+      case Routes.bodyScreen:
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider.value(
+            value: authCubit,
+            child: const BodyScreen(),
+          ),
+        );
+
       case Routes.takeCareScreen:
         return MaterialPageRoute(
           builder: (_) => BlocProvider.value(

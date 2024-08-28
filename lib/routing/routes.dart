@@ -16,4 +16,6 @@ class Routes {
   static const String cartScreen = "/cartScreen";
   static const String cultureOfFlowerScreen = "/cultureOfFlowerScreen";
   static const String favoriteScreen = "/favoriteScreen";
+  static const String articleScreen = "/articleScreen";
+  static const String bodyScreen = "/bodyScreen";
 }
