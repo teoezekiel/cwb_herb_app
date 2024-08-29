@@ -104,7 +104,7 @@ static const List<String> notifyImages = [
 
       //Kai added appBar
       appBar: AppBar(
-        backgroundColor: const Color(0xffacd4b2),
+        backgroundColor: const Color.fromARGB(255, 53, 117, 63),
         title: const Row(
           children: [
             CircleAvatar(
@@ -120,7 +120,7 @@ static const List<String> notifyImages = [
         ),
         actions: [
           IconButton(
-            icon: const Icon(Icons.shopping_cart),
+            icon: const Icon(Icons.shopping_cart) ,color:Colors.white,
             onPressed: () {
               Navigator.push(
                 context,
@@ -129,7 +129,7 @@ static const List<String> notifyImages = [
             },
           ),
           IconButton(
-            icon: const Icon(Icons.favorite),
+            icon: const Icon(Icons.favorite),color:Colors.white,
             onPressed: () {
               Navigator.push(
                 context,
@@ -139,6 +139,9 @@ static const List<String> notifyImages = [
           ),
         ],
       ),
+
+    //appbar section end
+    
       body: Scrollbar(
         thumbVisibility: true,
         controller: _scrollController,

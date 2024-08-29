@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'article_screen.dart';
+
+import 'cooking_ways_screen.dart';
 
 class CookScreen extends StatelessWidget {
   const CookScreen({Key? key}) : super(key: key);
@@ -32,10 +33,10 @@ class CookScreen extends StatelessWidget {
                   "assets/images/broccoli.jpg",
                   "assets/images/broccoli.jpg"
                 ],
-                title: "Jasmine (The innocent flower)",
-                description: "Short description of jasmine or preview of inner articles to attract user to click this contents",
-                author: "Article by (Name)",
-                content: "    The jasmine flower, with its delicate white or yellow petals and sweet, intoxicating fragrance, is a beloved symbol of purity, love, and elegance across various cultures. Often used in religious ceremonies and traditional garlands, jasmine blooms are celebrated not only for their aesthetic appeal but also for their role in perfumes and teas. Thriving in warm climates, this evergreen plant is cherished for its ease of cultivation and its ability to bring a touch of natural beauty and soothing aroma to gardens and homes.",
+                title: "Broccoli",
+                description: "Short description of broccoli or preview of inner articles to attract user to click this contents",
+                author: "Article by (Hein)",
+                content: "  Preparation: Wash the broccoli and cut it into florets. Peel and chop the stems if you want to use them too. Blanching: Bring a pot of water to a boil, add salt, and blanch the broccoli florets for 2 minutes. Drain and transfer to ice water to keep them bright green. Sauté: In a pan, heat olive oil over medium heat. Add minced garlic and sauté for about 30 seconds. Add the blanched broccoli, season with salt and pepper, and sauté for another 3-5 minutes until tender. Optional: Squeeze lemon juice over the broccoli before serving for added flavor.",
               ),
               const SizedBox(height: 16),
               _buildFlowerCard(
@@ -46,10 +47,10 @@ class CookScreen extends StatelessWidget {
                   "assets/images/Champak.png",
                   "assets/images/Champak.png",
                 ],
-                title: "Lotus (purity, rebirth, and strength)",
-                description: "Short description of lotus or preview of inner articles to attract user to click this contents",
-                author: "Article by (Name)",
-                content: "    The lotus flower, with its striking blooms and serene symbolism, is a powerful symbol of purity, enlightenment, and rebirth in many cultures. Emerging from muddy waters, the lotus represents the ability to rise above challenges and achieve spiritual growth. In Hinduism and Buddhism, the lotus is revered as a sacred flower associated with divine beauty and spiritual awakening. Its large, fragrant blossoms come in various colors, including white, pink, and blue, each carrying its own symbolic meaning. Thriving in waterlogged environments, the lotus plant is admired for its resilience and its ability to bloom with exceptional grace and beauty.",
+                title: "Champak",
+                description: "Short description of Champak or preview of inner articles to attract user to click this contents",
+                author: "Article by (Hein)",
+                content: "    Preparation: Rinse the petals of the champak flower thoroughly and pat dry. Sauté: Heat olive oil or butter in a pan. Add minced garlic and sauté for 1 minute. Cooking the Petals: Add the flower petals to the pan and lightly sauté for 2-3 minutes. Seasoning: Add a pinch of salt and a squeeze of lemon to enhance the flavor. Serve as a garnish or mix into salads.",
               ),
               const SizedBox(height: 16),
               _buildFlowerCard(
@@ -60,10 +61,10 @@ class CookScreen extends StatelessWidget {
                   "assets/images/coriander.jpg",
                   "assets/images/coriander.jpg",
                 ],
-                title: "Flower Festivals",
-                description: "Short description of flower festivals or preview of inner articles to attract user to click this contents",
-                author: "Article by (Name)",
-                content: "    Flower festivals are vibrant celebrations that showcase the beauty and diversity of flowers, often marking seasonal changes or cultural traditions. These festivals typically feature stunning floral displays, parades, and artistic exhibits that highlight the intricate and colorful world of flowers. One of the most famous flower festivals is the Keukenhof Flower Festival in the Netherlands, held annually in the spring. It is renowned for its vast fields of tulips, daffodils, and hyacinths, creating a breathtaking display of color and design. Another notable event is the Rose Parade in Pasadena, California, which takes place on New Year's Day and features elaborate floats adorned with thousands of roses and other flowers.",
+                title: "Coriander",
+                description: "Short description of coriander or preview of inner articles to attract user to click this contents",
+                author: "Article by (Hein)",
+                content: "    Preparation: Wash the coriander leaves and chop them finely. Keep the stems if you want a more intense flavor. Sauté: Heat olive oil in a pan and add the minced garlic. Sauté for about 30 seconds until fragrant. Adding Coriander: Add the chopped coriander leaves and sauté for 1-2 minutes. The leaves should just wilt but remain bright green. Seasoning: Add a dash of lemon juice and salt to taste. Use as a garnish for dishes like grilled meats, soups, or salads.",
               ),
               const SizedBox(height: 16),
               _buildFlowerCard(
@@ -74,10 +75,10 @@ class CookScreen extends StatelessWidget {
                   "assets/images/Grand_Rapids.jpg",
                   "assets/images/Grand_Rapids.jpg",
                 ],
-                title: "Flower Arrangements",
-                description: "Short description of flower arrangements or preview of inner articles to attract user to click this contents",
-                author: "Article by (Name)",
-                content: "    Flower arrangements are an elegant art form that brings together the beauty of fresh blooms into stunning displays for various occasions. From traditional bouquets with classic symmetry to modern designs featuring bold, minimalist elements, each arrangement reflects a unique style and sentiment. Whether creating a rustic country look with wildflowers or crafting a serene Japanese ikebana arrangement, flower arrangements enhance any setting with their color, form, and emotional impact. They not only beautify spaces but also convey messages of celebration, love, and appreciation.",
+                title: "Grand Rapids",
+                description: "Short description of Grand Rapids or preview of inner articles to attract user to click this contents",
+                author: "Article by (Hein)",
+                content: "    Preparation: Rinse the lettuce leaves thoroughly and pat dry. Tear the leaves into bite-sized pieces. Dressing: In a small bowl, whisk together olive oil, balsamic vinegar, salt, and pepper. Tossing: Toss the lettuce with the dressing right before serving to prevent wilting. Serving Suggestion: Add toppings like cherry tomatoes, cucumber slices, or nuts for extra texture and flavor.",
               ),
             ],
           ),
@@ -98,8 +99,8 @@ class CookScreen extends StatelessWidget {
       onTap: () => Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => ArticleScreen(
-            imageUrls: imageUrls,
+          builder: (context) => CookingWaysScreen(
+            imagePaths: imageUrls,
             title: title,
             content: content,
             author: author,
@@ -116,7 +117,7 @@ class CookScreen extends StatelessWidget {
           children: [
             ClipRRect(
               borderRadius: BorderRadius.circular(12),
-              child: Image.network(
+              child: Image.asset(
                 imageUrls[0],
                 fit: BoxFit.cover,
                 width: 100,
