@@ -81,28 +81,32 @@ class AuthCubit extends Cubit<AuthState> {
           await _auth.signInWithCredential(credential);
       if (authResult.additionalUserInfo!.isNewUser) {
         // Delete the user account if it is a new user to Create it automatically in Next Screen
-        await _auth.currentUser!.delete();
+        await _auth.currentUser!.updateDisplayName(googleUser.displayName);
+        await _auth.currentUser!.updatePhotoURL(googleUser.photoUrl);
 
         emit(IsNewUser(googleUser: googleUser, credential: credential));
       } else {
         emit(UserSignIn());
       }
     } catch (e) {
-      emit(AuthError(e.toString()));
+      emit(AuthError('Failed to sign in with Google: ${e.toString()}'));
     }
   }
 
   Future<void> signOut() async {
     emit(AuthLoading());
     try {
-      // Attempt to sign out from Google
+      // Sign out from Google
       if (await _googleSignIn.isSignedIn()) {
         await _googleSignIn.signOut();
       }
+
       // Sign out from Firebase
       await _auth.signOut();
+
       emit(UserSignedOut());
     } catch (e) {
+      print('Sign out failed: ${e.toString()}'); // Debugging log
       emit(AuthError('Failed to sign out: ${e.toString()}'));
     }
   }

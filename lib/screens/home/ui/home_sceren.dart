@@ -32,6 +32,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   int index = 0;
+  bool isLoading = false;  // Variable to track loading state
   final screens = [
     const BodyScreen(),
     const TakeCareScreen(),
@@ -55,25 +56,37 @@ class _HomeScreenState extends State<HomeScreen> {
           IconButton(
             icon: const Icon(Icons.logout),
             onPressed: () {
-              _signOut(context);
+              _signOut(context);  // Call sign-out function when clicked
             },
           ),
         ],
       ),
-      body: OfflineBuilder(
-        connectivityBuilder: (
-          BuildContext context,
-          ConnectivityResult connectivity,
-          Widget child,
-        ) {
-          final bool connected = connectivity != ConnectivityResult.none;
-          return connected ? screens[index] : const BuildNoInternet();
-        },
-        child: const Center(
-          child: CircularProgressIndicator(
-            color: ColorsManager.mainBlue,
+      body: Stack(
+        children: [
+          OfflineBuilder(
+            connectivityBuilder: (
+              BuildContext context,
+              ConnectivityResult connectivity,
+              Widget child,
+            ) {
+              final bool connected = connectivity != ConnectivityResult.none;
+              return connected ? screens[index] : const BuildNoInternet();
+            },
+            child: const Center(
+              child: CircularProgressIndicator(
+                color: ColorsManager.mainBlue,
+              ),
+            ),
           ),
-        ),
+          if (isLoading)
+            Center(
+              child: Image.asset(
+                'assets/images/loading.gif',  // Display loading.gif when isLoading is true
+                width: 100,
+                height: 100,
+              ),
+            ),
+        ],
       ),
       bottomNavigationBar: NavigationBarTheme(
         data: NavigationBarThemeData(
@@ -88,7 +101,15 @@ class _HomeScreenState extends State<HomeScreen> {
           labelBehavior: NavigationDestinationLabelBehavior.onlyShowSelected,
           selectedIndex: index,
           animationDuration: const Duration(seconds: 1),
-          onDestinationSelected: (index) => setState(() => this.index = index),
+          onDestinationSelected: (index) => setState(() {
+            this.index = index;
+            isLoading = true;  // Set loading to true when navigating
+            Future.delayed(const Duration(seconds: 3), () { // Simulate loading duration
+              setState(() {
+                isLoading = false;
+              });
+            });
+          }),
           destinations: const [
             NavigationDestination(
               icon: Icon(Icons.home),
@@ -116,75 +137,31 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  SafeArea _homePage(BuildContext context) {
-    return SafeArea(
-      child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 15.w),
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              SizedBox(
-                height: 200.h,
-                width: 200.w,
-                child: FirebaseAuth.instance.currentUser!.photoURL != null
-                    ? CachedNetworkImage(
-                        imageUrl: FirebaseAuth.instance.currentUser!.photoURL!,
-                        placeholder: (context, url) =>
-                            Image.asset('assets/images/loading.gif'),
-                        fit: BoxFit.cover,
-                      )
-                    : Image.asset('assets/images/placeholder.png'),
-              ),
-              Text(
-                FirebaseAuth.instance.currentUser!.displayName!,
-                style: TextStyles.font15DarkBlue500Weight
-                    .copyWith(fontSize: 30.sp),
-              ),
-              BlocConsumer<AuthCubit, AuthState>(
-              listenWhen: (previous, current) => previous != current,
-              listener: (context, state) async {
-                if (state is AuthLoading) {
-                  ProgressIndicaror.showProgressIndicator(context);
-                } else if (state is UserSignedOut) {
-                  Navigator.of(context).pushNamedAndRemoveUntil(
-                    Routes.loginScreen,
-                    (Route<dynamic> route) => false,
-                  );
-                } else if (state is AuthError) {
-                  // Hide the loading indicator before showing the dialog
-                  Navigator.of(context).pop();
-                  await AwesomeDialog(
-                    context: context,
-                    dialogType: DialogType.info,
-                    animType: AnimType.rightSlide,
-                    title: 'Sign out error',
-                    desc: state.message,
-                  ).show();
-                }
-              },
-              builder: (context, state) {
-                return AppTextButton(
-                  buttonText: 'Sign Out',
-                  textStyle: TextStyles.font15DarkBlue500Weight,
-                  onPressed: () {
-                    _signOut(context);
-                  },
-                );
-              },
-            )
+  void _signOut(BuildContext context) {
+    setState(() {
+      isLoading = true;  // Show loading indicator during sign-out
+    });
 
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  void _signOut(BuildContext context) async {
-    try {
-      await GoogleSignIn().disconnect();
-    } finally {
-      context.read<AuthCubit>().signOut();
-    }
+    context.read<AuthCubit>().signOut().then((_) {
+      setState(() {
+        isLoading = false;  // Hide loading indicator after sign-out
+      });
+      Navigator.of(context).pushNamedAndRemoveUntil(
+        Routes.loginScreen,
+        (Route<dynamic> route) => false,
+      );
+    }).catchError((error) {
+      setState(() {
+        isLoading = false;  // Hide loading indicator on error
+      });
+      print('Sign out failed: ${error.toString()}');  // Debugging log
+      AwesomeDialog(
+        context: context,
+        dialogType: DialogType.info,
+        animType: AnimType.rightSlide,
+        title: 'Sign out error',
+        desc: 'Failed to sign out: ${error.toString()}',
+      ).show();
+    });
   }
 }
