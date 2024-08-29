@@ -3,6 +3,7 @@ import 'dart:async';
 import '/routing/routes.dart'; // Import your routes.dart file here
 
 import 'take_care_screen.dart';
+import '../ui/home_sceren.dart';
 import 'cook_screen.dart';
 import 'knowledge_screen.dart';
 import 'plant_detail_screen.dart';
@@ -83,36 +84,7 @@ class _BodyScreenState extends State<BodyScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xffacd4b2),
-      appBar: AppBar(
-        backgroundColor: const Color(0xffacd4b2),
-        title: const Row(
-          children: [
-            CircleAvatar(
-              backgroundImage: AssetImage('assets/images/logo.jpg'),
-              radius: 20,
-            ),
-            SizedBox(width: 8),
-            Text(
-              "Green Sprout",
-              style: TextStyle(color: Colors.white),
-            ),
-          ],
-        ),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.shopping_cart),
-            onPressed: () {
-              Navigator.pushNamed(context, Routes.cartScreen);
-            },
-          ),
-          IconButton(
-            icon: const Icon(Icons.favorite),
-            onPressed: () {
-              Navigator.pushNamed(context, Routes.favoriteScreen);
-            },
-          ),
-        ],
-      ),
+      // Removed appBar and bottomNavigationBar properties here
       body: Scrollbar(
         thumbVisibility: true,
         controller: _scrollController,
@@ -264,24 +236,6 @@ class _BodyScreenState extends State<BodyScreen> {
             ),
           ),
         ),
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: const Color(0xfff7f8fa),
-        items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-          BottomNavigationBarItem(icon: Icon(Icons.local_florist), label: 'Take Care'),
-          BottomNavigationBarItem(icon: Icon(Icons.book), label: 'Knowledge'),
-          BottomNavigationBarItem(icon: Icon(Icons.inbox), label: 'Inbox'),
-          BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
-        ],
-        currentIndex: _selectedIndex,
-        onTap: (index) {
-          setState(() {
-            _selectedIndex = index;
-          });
-        },
-        selectedItemColor: Colors.black,
-        unselectedItemColor: Colors.grey,
       ),
     );
   }

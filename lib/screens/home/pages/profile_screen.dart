@@ -88,13 +88,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   // Handle change password
                 },
               ),
-              ListTile(
-                leading: const Icon(Icons.logout),
-                title: const Text('Log Out'),
-                onTap: () {
-                  // Handle log out
-                },
-              ),
             ],
           ),
         ),

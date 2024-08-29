@@ -33,6 +33,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   int index = 0;
   final screens = [
+    const BodyScreen(),
     const TakeCareScreen(),
     const KnowledgeScreen(),
     const InboxScreen(),
@@ -140,37 +141,38 @@ class _HomeScreenState extends State<HomeScreen> {
                     .copyWith(fontSize: 30.sp),
               ),
               BlocConsumer<AuthCubit, AuthState>(
-                buildWhen: (previous, current) => previous != current,
-                listenWhen: (previous, current) => previous != current,
-                listener: (context, state) async {
-                  if (state is AuthLoading) {
-                    ProgressIndicaror.showProgressIndicator(context);
-                  } else if (state is UserSignedOut) {
-                    context.pop();
-                    context.pushNamedAndRemoveUntil(
-                      Routes.loginScreen,
-                      predicate: (route) => false,
-                    );
-                  } else if (state is AuthError) {
-                    await AwesomeDialog(
-                      context: context,
-                      dialogType: DialogType.info,
-                      animType: AnimType.rightSlide,
-                      title: 'Sign out error',
-                      desc: state.message,
-                    ).show();
-                  }
-                },
-                builder: (context, state) {
-                  return AppTextButton(
-                    buttonText: 'Sign Out',
-                    textStyle: TextStyles.font15DarkBlue500Weight,
-                    onPressed: () {
-                      _signOut(context);
-                    },
+              listenWhen: (previous, current) => previous != current,
+              listener: (context, state) async {
+                if (state is AuthLoading) {
+                  ProgressIndicaror.showProgressIndicator(context);
+                } else if (state is UserSignedOut) {
+                  Navigator.of(context).pushNamedAndRemoveUntil(
+                    Routes.loginScreen,
+                    (Route<dynamic> route) => false,
                   );
-                },
-              ),
+                } else if (state is AuthError) {
+                  // Hide the loading indicator before showing the dialog
+                  Navigator.of(context).pop();
+                  await AwesomeDialog(
+                    context: context,
+                    dialogType: DialogType.info,
+                    animType: AnimType.rightSlide,
+                    title: 'Sign out error',
+                    desc: state.message,
+                  ).show();
+                }
+              },
+              builder: (context, state) {
+                return AppTextButton(
+                  buttonText: 'Sign Out',
+                  textStyle: TextStyles.font15DarkBlue500Weight,
+                  onPressed: () {
+                    _signOut(context);
+                  },
+                );
+              },
+            )
+
             ],
           ),
         ),

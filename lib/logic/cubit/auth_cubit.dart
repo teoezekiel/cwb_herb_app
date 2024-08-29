@@ -7,6 +7,7 @@ part 'auth_state.dart';
 
 class AuthCubit extends Cubit<AuthState> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
+  final GoogleSignIn _googleSignIn = GoogleSignIn();
 
   AuthCubit() : super(AuthInitial());
 
@@ -93,8 +94,17 @@ class AuthCubit extends Cubit<AuthState> {
 
   Future<void> signOut() async {
     emit(AuthLoading());
-    await _auth.signOut();
-    emit(UserSignedOut());
+    try {
+      // Attempt to sign out from Google
+      if (await _googleSignIn.isSignedIn()) {
+        await _googleSignIn.signOut();
+      }
+      // Sign out from Firebase
+      await _auth.signOut();
+      emit(UserSignedOut());
+    } catch (e) {
+      emit(AuthError('Failed to sign out: ${e.toString()}'));
+    }
   }
 
   Future<void> signUpWithEmail(
