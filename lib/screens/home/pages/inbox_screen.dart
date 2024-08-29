@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class InboxScreen extends StatefulWidget {
   const InboxScreen({Key? key}) : super(key: key);
@@ -230,10 +231,15 @@ class EventInfoScreen extends StatelessWidget {
                   Expanded(
                     child: Center(
                       child: ElevatedButton.icon(
-                        onPressed: () {
-                          // Handle add to cart action
+                        onPressed: () async {
+                          const url = 'https://forms.gle/d4SGLuj3XrsQKUzFA'; // Replace with your register URL
+                          if (await canLaunch(url)) {
+                            await launch(url);
+                          } else {
+                            throw 'Could not launch $url';
+                          }
                         },
-                        icon: Icon(Icons.note_add_outlined),
+                        icon: Icon(Icons.app_registration),
                         label: Text('Register Here'),
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.green,

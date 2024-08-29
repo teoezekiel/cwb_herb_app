@@ -1,17 +1,16 @@
-import 'package:flutter/material.dart';
 import 'dart:async';
-import '/routing/routes.dart'; // Import your routes.dart file here
 
-import 'take_care_screen.dart';
-import '../ui/home_sceren.dart';
-import 'cook_screen.dart';
-import 'knowledge_screen.dart';
-import 'plant_detail_screen.dart';
+import 'package:flutter/material.dart';
+
+import '/routing/routes.dart'; // Import your routes.dart file here
 import 'cart_screen.dart';
 import 'culture_of_flower_screen.dart';
 import 'favorite_screen.dart';
 import 'inbox_screen.dart';
+import 'knowledge_screen.dart';
+import 'plant_detail_screen.dart';
 import 'profile_screen.dart';
+import 'take_care_screen.dart';
 
 class BodyScreen extends StatefulWidget {
   const BodyScreen({Key? key}) : super(key: key);
@@ -35,20 +34,37 @@ class _BodyScreenState extends State<BodyScreen> {
     ProfileScreen(),
   ];
 
+ // Sample plant data
   static const List<Map<String, String>> plants = [
-    {"name": "Noni", "image": "https://i.pinimg.com/564x/4f/08/69/4f08697eb6f7a3c26f29ef4884b67e12.jpg"},
-    {"name": "Bonsai", "image": "https://i.pinimg.com/564x/b7/89/c6/b789c68039630efa414736d5702d0205.jpg"},
-    {"name": "Moringa", "image": "https://i.pinimg.com/564x/6e/01/d0/6e01d0deb0218887b97ec6dbda4b54dc.jpg"},
-    {"name": "Mint", "image": "https://i.pinimg.com/564x/16/05/c5/1605c5c53413da6cd647aee8d8f73e2d.jpg"},
-    {"name": "Celery", "image": "https://i.pinimg.com/564x/84/63/a8/8463a80cedd33b2b47f14669a61ef1f2.jpg"}
-  ];
+  {
+    "name": "Noni",
+    "image": "assets/images/noni.jpg"
+  },
+  {
+    "name": "Bonsai",
+    "image": "assets/images/bonsai.jpg"
+  },
+  {
+    "name": "Moringa",
+    "image": "assets/images/moringa.jpg"
+  },
+  {
+    "name": "Mint",
+    "image": "assets/images/mint.jpg"
+  },
+  {
+    "name": "Celery",
+    "image": "assets/images/celery.jpg"
+  }
+];
 
-  static const List<String> notifyImages = [
-    "https://i.pinimg.com/736x/65/61/c2/6561c230f634b67d41d8c140a2f17b5c.jpg",
-    "https://i.pinimg.com/736x/7f/f2/82/7ff2828007992e588c7f2a5176771287.jpg",
-    "https://i.pinimg.com/564x/75/57/3b/75573b297c2b1fa360d0aea866f9eb58.jpg",
-    "https://i.pinimg.com/564x/54/f4/dd/54f4dd420d3a56355f195f60e9e05471.jpg"
-  ];
+  // Notify images data
+static const List<String> notifyImages = [
+  "assets/images/plant_event_1.jpg",
+  "assets/images/plant_event_2.jpg",
+  "assets/images/plant_event_3.jpg",
+  "assets/images/plant_event_4.jpg"
+];
 
   @override
   void initState() {
@@ -85,6 +101,44 @@ class _BodyScreenState extends State<BodyScreen> {
     return Scaffold(
       backgroundColor: const Color(0xffacd4b2),
       // Removed appBar and bottomNavigationBar properties here
+
+      //Kai added appBar
+      appBar: AppBar(
+        backgroundColor: const Color(0xffacd4b2),
+        title: const Row(
+          children: [
+            CircleAvatar(
+              backgroundImage: AssetImage('assets/images/logo.jpg'),
+              radius: 20,
+            ),
+            SizedBox(width: 8),
+            Text(
+              "Green Sprout",
+              style: TextStyle(color: Colors.white),
+            ),
+          ],
+        ),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.shopping_cart),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => CartScreen()), // Removed const
+              );
+            },
+          ),
+          IconButton(
+            icon: const Icon(Icons.favorite),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => FavoriteScreen()),
+              );
+            },
+          ),
+        ],
+      ),
       body: Scrollbar(
         thumbVisibility: true,
         controller: _scrollController,
@@ -108,33 +162,37 @@ class _BodyScreenState extends State<BodyScreen> {
                   ),
                 ),
                 const SizedBox(height: 20),
-                const Text(
-                  "Notify",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
+                  const Text(
+                    "Notify",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
-                ),
-                const SizedBox(height: 0),
-                SizedBox(
-                  height: 230,
-                  child: PageView.builder(
-                    controller: _pageController,
-                    itemCount: notifyImages.length,
-                    itemBuilder: (context, index) {
-                      return GestureDetector(
-                        onTap: () {
-                          Navigator.pushNamed(context, Routes.inboxScreen);
-                        },
-                        child: _buildStyledContainer(
-                          imageUrl: notifyImages[index],
-                          title: '',
-                        ),
-                      );
-                    },
+                  const SizedBox(height: 0),
+                  SizedBox(
+                    height: 230,
+                    child: PageView.builder(
+                      controller: _pageController,
+                      itemCount: notifyImages.length,
+                      itemBuilder: (context, index) {
+                        return GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => InboxScreen()),
+                            );
+                          },
+                          child: _buildStyledContainer(
+                            imageUrl: notifyImages[index], // Use the local image path
+                            title: '',
+                          ),
+                        );
+                      },
+                    ),
                   ),
-                ),
+                  
                 const SizedBox(height: 5),
                 const Text(
                   "Explore Plants",
@@ -146,7 +204,7 @@ class _BodyScreenState extends State<BodyScreen> {
                 ),
                 const SizedBox(height: 12),
                 SizedBox(
-                  height: 100,
+                  height: 100, // Adjust the height as needed
                   child: ListView.builder(
                     scrollDirection: Axis.horizontal,
                     itemCount: plants.length,
@@ -162,10 +220,10 @@ class _BodyScreenState extends State<BodyScreen> {
                           child: Column(
                             children: [
                               SizedBox(
-                                width: 70,
-                                height: 70,
+                                width: 70, // Adjust the width to control the image size
+                                height: 70, // Adjust the height to control the image size
                                 child: CircleAvatar(
-                                  backgroundImage: NetworkImage(plants[index]["image"]!),
+                                  backgroundImage: AssetImage(plants[index]["image"]!), // Load local image
                                 ),
                               ),
                               const SizedBox(height: 10),
@@ -178,43 +236,49 @@ class _BodyScreenState extends State<BodyScreen> {
                   ),
                 ),
                 const SizedBox(height: 15),
-                GestureDetector(
-                  onTap: () {
-                    Navigator.pushNamed(context, Routes.knowledgeScreen);
-                  },
-                  child: _buildStyledContainer(
-                    imageUrl: "https://i.pinimg.com/564x/0c/e2/ca/0ce2ca51f4753fe6299527fdf332432f.jpg",
-                    title: "",
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => const KnowledgeScreen()),
+                      );
+                    },
+                    child: _buildStyledContainer(
+                      imageUrl: "assets/images/traditional_knowledge.jpg", // Local image path
+                      title: "",
+                    ),
                   ),
-                ),
-                const SizedBox(height: 0),
-                const Text(
-                  "Learn Traditional Knowledge",
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
+                  const SizedBox(height: 0),
+                  const Text(
+                    "Learn Traditional Knowledge",
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
-                ),
-                const SizedBox(height: 0),
-                const Text(
-                  "Study and collect traditional knowledge around",
-                  style: TextStyle(
-                    color: Colors.black54,
-                    fontSize: 12,
+                  const SizedBox(height: 0),
+                  const Text(
+                    "Study and collect traditional knowledge around",
+                    style: TextStyle(
+                      color: Colors.black54,
+                      fontSize: 12,
+                    ),
                   ),
-                ),
                 const SizedBox(height: 15),
                 GestureDetector(
                   onTap: () {
-                    Navigator.pushNamed(context, Routes.cultureOfFlowerScreen);
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const CultureOfFlowerScreen()),
+                    );
                   },
                   child: _buildStyledContainer(
-                    imageUrl: "https://i.pinimg.com/736x/6f/9f/01/6f9f012d0fdf3e21b7e5f1fb0cf3a6f2.jpg",
+                    imageUrl: "assets/images/culture_of_flowers.jpg", // Local image path
                     title: "",
                   ),
                 ),
-                const SizedBox(height: 5),
+                const SizedBox(height: 0),
                 const Text(
                   "Culture of Flowers",
                   style: TextStyle(
@@ -225,13 +289,92 @@ class _BodyScreenState extends State<BodyScreen> {
                 ),
                 const SizedBox(height: 0),
                 const Text(
-                  "Learn the culture and meaning of each flower",
+                  "Let’s find culture of flowers",
                   style: TextStyle(
                     color: Colors.black54,
                     fontSize: 12,
                   ),
                 ),
-                const SizedBox(height: 10),
+                const SizedBox(height: 16),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          _buildStyledContainer(
+                            imageUrl: "assets/images/workshop.jpg", // Local image path
+                            title: "",
+                          ),
+                          const SizedBox(height: 0),
+                          const Text(
+                            "Workshop",
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          const SizedBox(height: 0),
+                          const Text(
+                            "Gather and collect",
+                            style: TextStyle(
+                              color: Colors.black54,
+                              fontSize: 12,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(width: 16),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          _buildStyledContainer(
+                            imageUrl: "assets/images/foyer.png", // Local image path
+                            title: "",
+                          ),
+                          const SizedBox(height: 0),
+                          const Text(
+                            "Foyer",
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          const SizedBox(height: 0),
+                          const Text(
+                            "About foyer etc...",
+                            style: TextStyle(
+                              color: Colors.black54,
+                              fontSize: 12,
+                            ),
+                          ),
+                          const SizedBox(height: 16),
+                          TextField(
+                            controller: _searchController,
+                            decoration: InputDecoration(
+                              hintText: 'Search...',
+                              prefixIcon: Icon(Icons.search),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(8.0),
+                              ),
+                              filled: true,
+                              fillColor: Colors.white,
+                            ),
+                            onSubmitted: (query) {
+                              // Implement your search logic here
+                              print('Search query: $query');
+                            },
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
               ],
             ),
           ),
